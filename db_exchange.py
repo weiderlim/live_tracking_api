@@ -17,10 +17,10 @@ def lambda_handler(event, context):
     function_to_run = event.get('function_to_run')
 
     # Owners and mapping to PIC
-    acc_owners = ['A']
-    #acc_owners = ['J', 'JM', 'JM2', 'VKEE', 'KS']
+    # acc_owners = ['A']
+    acc_owners = ['J', 'JM', 'JM2', 'VKEE', 'KS']
+
     pic = {
-        "A": "Tester",
         "J": "Jansen",
         "VKEE": "Vkee",
         "JM": "Joshua Moh",
@@ -67,6 +67,7 @@ def lambda_handler(event, context):
 
             elif function_to_run == 'get_bybit_unified_balance' and bb_api_key != 'none':
                 raw_result = get_bybit_unified_balance(bb_api_key, bb_secret_key, 'UNIFIED')
+                print(raw_result)
                 
                 if raw_result.get('statusCode') == 200:
                     
@@ -345,10 +346,11 @@ def get_bybit_unified_balance(bb_api_key, bb_secret_key, accountType):
         }
         
         response = requests.get(url, headers=headers, params=parameters)
-        print(f"Bybit Unified Bal: {response}")
+        print(f"Bybit Unified Bal: {response.json()}")
         
         if response.status_code == 200:
             data = response.json()
+            print(data)
             
             return {
                 "statusCode": 200,
