@@ -12,7 +12,7 @@ def main():
     return jsonify(data), 200
 
 @app.route("/db_exchange")
-def main():
+def db_exchange():
     data = {
         "exchange": "binance", 
         "PIC": "WD", 
