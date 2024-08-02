@@ -37,6 +37,7 @@ def lambda_handler(event, context):
         bb_secret_key = os.getenv(f'{owner}_BYBIT_SECRET_KEY', 'none')
         
         print(f"Function Running: {function_to_run}")
+        print(f"Bybit: {bb_api_key}")
 
         try:
             if function_to_run == 'get_bin_spot' and bin_api_key != 'none':
