@@ -251,7 +251,7 @@ def get_bybit_bal(bb_api_key, bb_secret_key, accountType):
         }
         
         response = requests.get(url, headers=headers, params=parameters)
-        print(f"Bybit Bal: {response}")
+        print(f"Bybit Bal: {response.json()}")
         
         if response.status_code == 200:
             data = response.json()
