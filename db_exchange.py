@@ -251,6 +251,7 @@ def get_bybit_bal(bb_api_key, bb_secret_key, accountType):
         }
         
         response = requests.get(url, headers=headers, params=parameters)
+        print(f"Bybit Bal: {response}")
         
         if response.status_code == 200:
             data = response.json()
@@ -342,6 +343,7 @@ def get_bybit_unified_balance(bb_api_key, bb_secret_key, accountType):
         }
         
         response = requests.get(url, headers=headers, params=parameters)
+        print(f"Bybit Unified Bal: {response}")
         
         if response.status_code == 200:
             data = response.json()
