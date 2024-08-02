@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 # Dictionary to cache prices - Shared for binance and bybit for perfomance reasons
 price_cache = {}
 
+load_dotenv()
+
 def lambda_handler(event, context):
     print(event)
     function_to_run = event.get('function_to_run')
