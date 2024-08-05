@@ -17,8 +17,8 @@ def lambda_handler(event, context):
     function_to_run = event.get('function_to_run')
 
     # Owners and mapping to PIC
-    acc_owners = ['A']
-    #acc_owners = ['J', 'JM', 'JM2', 'VKEE', 'KS']
+    #acc_owners = ['A']
+    acc_owners = ['J', 'JM', 'JM2', 'VKEE', 'KS']
 
     pic = {
         "A": "Test",
