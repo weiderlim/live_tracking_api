@@ -12,7 +12,7 @@ price_cache = {}
 
 load_dotenv()
 
-def exchange_assets(event, context):
+def exchange_assets(event):
     print(event)
     function_to_run = event.get('function_to_run')
 

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import json
 from db_exchange import exchange_assets
-#from account_view import view_account
+from ttl_exposure import view_account
 
 app = Flask(__name__)
 
@@ -25,33 +25,33 @@ def db_exchange():
         event = {"function_to_run": payload.get("function_to_run")}
 
         # Call the db_exchange function
-        json_result = exchange_assets(event, "")
+        json_result = exchange_assets(event)
         result = json.loads(json_result.get('body'))
 
         return jsonify(result), 200
     else:
         return jsonify({"error": "Request must be JSON"}), 400
     
-# @app.route("/ttl_exposure", methods=["POST"])
-# def ttl_exposure():
-#     if request.is_json:
+@app.route("/ttl_exposure", methods=["POST"])
+def ttl_exposure():
+    if request.is_json:
         
-#         # Parse Payload
-#         payload = request.get_json()
-#         print(f"Payload: {payload}")
+        # Parse Payload
+        payload = request.get_json()
+        print(f"Payload: {payload}")
 
-#         event = {
-#             "start_date": payload.get("start_date"),
-#             "end_date": payload.get("end_date")
-#             }
+        event = {
+            "start_date": payload.get("start_date"),
+            "end_date": payload.get("end_date")
+            }
 
-#         # Call the account_view function
-#         json_result = view_account(event)
-#         result = json.loads(json_result.get('body'))
+        # Call the account_view function
+        json_result = view_account(event)
+        result = json.loads(json_result.get('body'))
 
-#         return jsonify(result), 200
-#     else:
-#         return jsonify({"error": "Request must be JSON"}), 400
+        return jsonify(result), 200
+    else:
+        return jsonify({"error": "Request must be JSON"}), 400
 
 
 if __name__ == "__main__":
