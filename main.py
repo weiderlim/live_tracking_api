@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import json
 from db_exchange import exchange_assets
 from ttl_exposure import view_account
+from deribit_bal import show_deribit_bal
 
 app = Flask(__name__)
 
@@ -53,6 +54,21 @@ def ttl_exposure():
     else:
         return jsonify({"error": "Request must be JSON"}), 400
 
+@app.route("/deribit_bal", methods=["GET"])
+def deribit_bal():
+    if request.is_json:
+        
+        # Parse Payload
+        payload = request.get_json()
+        print(f"Payload: {payload}")
+
+        # Call the account_view function
+        json_result = show_deribit_bal()
+        result = json.loads(json_result.get('body'))
+
+        return jsonify(result), 200
+    else:
+        return jsonify({"error": "Request must be JSON"}), 400
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
