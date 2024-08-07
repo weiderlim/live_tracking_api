@@ -3,6 +3,9 @@ import requests
 import os 
 import time
 from requests.exceptions import ConnectTimeout
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_auth_token(api_key, secret_key):
     
@@ -135,8 +138,8 @@ def show_deribit_bal():
         
         print(f'Checking Owner: {owner}')
         
-        api_key = os.environ.get(owner + '_DERIBIT_API_KEY', 'none')
-        secret_key = os.environ.get(owner + '_DERIBIT_SECRET_KEY', 'none')
+        api_key = os.getenv(owner + '_DERIBIT_API_KEY', 'none')
+        secret_key = os.getenv(owner + '_DERIBIT_SECRET_KEY', 'none')
     
         auth_data = get_auth_token(api_key, secret_key)
         bearer_token = auth_data.get('result').get('access_token')
