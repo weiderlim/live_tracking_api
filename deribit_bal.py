@@ -136,12 +136,16 @@ def show_deribit_bal():
     
     for owner in acc_owners :
         
-        print(f'Checking Owner: {owner}')
-        
         api_key = os.getenv(owner + '_DERIBIT_API_KEY', 'none')
         secret_key = os.getenv(owner + '_DERIBIT_SECRET_KEY', 'none')
+
+        print(f'Checking Owner: {owner}')
+        print(f"API Key: {api_key}")
     
         auth_data = get_auth_token(api_key, secret_key)
+
+        print(auth_data)
+
         bearer_token = auth_data.get('result').get('access_token')
     
         all_currency = ['USDT', 'BTC', 'ETH', 'USDC']

@@ -23,6 +23,7 @@ def view_account(event):
     print(f'Obtaining exchange pnl from {start_date} to {end_date}')
     
     acc_owners = ['J', 'JM2', 'VKEE']
+    #acc_owners = ['A']
     
     # Owner to PIC
     pic = {
@@ -162,7 +163,7 @@ def aggregate_df(df, owner):
         df['date'] = df['date'].astype(str)
 
     # Group by 'status' ,'date', 'symbol' and 'exchange then sum the 'uPnL' and 'rPnL' columns
-    combined_df = df.groupby(['status','date', 'symbol', 'exchange'], as_index=False).sum()
+    combined_df = df.groupby(['status','date', 'symbol', 'exchange', 'side'], as_index=False).sum()
 
     # Calculate total PnL
     combined_df['tPnL'] = combined_df['uPnL'] + combined_df['rPnL']
@@ -392,6 +393,13 @@ def parse_bin_closed (bin_api_key, bin_secret_key, unix_start, unix_end):
         unix_time = order.get('time')
         date = convert_timestamp_to_date(unix_time)
         realizedPnl = order.get('realizedPnl')
+        side = order.get('side')
+
+        # Formatting
+        if side.upper() == 'SELL':
+            side = "Sell"
+        elif side.upper() == 'BUY':
+            side = "Buy"
 
         # Calculations
         price = float(order.get('price'))
@@ -409,6 +417,7 @@ def parse_bin_closed (bin_api_key, bin_secret_key, unix_start, unix_end):
             'equity': '',
             'notional': notional, 
             'effective_lev': '',
+            'side': side,
             'uPnL': '0',
             'rPnL': realizedPnl
         }
@@ -459,6 +468,15 @@ def parse_bin_open (bin_open_pnl, current_date, binance_equity):
         total_notional += notional
         unRealizedProfit = item.get('unRealizedProfit')
 
+        # Determine Side
+        liquidationPrice = float(item.get('liquidationPrice'))
+        entryPrice = float(item.get('entryPrice'))
+
+        if liquidationPrice > entryPrice:
+            side = "Buy"
+        else:
+            side = "Sell"
+
         order_data = {
             'status': 'Open',
             'date': str(current_date),
@@ -468,6 +486,7 @@ def parse_bin_open (bin_open_pnl, current_date, binance_equity):
             'equity': float(binance_equity),
             'notional': notional, 
             'effective_lev': 0, # Placeholder
+            'side': side,
             'uPnL': unRealizedProfit,
             'rPnL': '0' # Why is rPnL zero for binance open? - API doesnt show rPnL
         }
@@ -519,6 +538,7 @@ def parse_bb_closed (bb_api_key, bb_secret_key, category, unix_start, unix_end):
             updatedTime = item.get('updatedTime')
             date = convert_timestamp_to_date(updatedTime)
             closedPnl = item.get('closedPnl')
+            side = item.get('side')
 
             # Calculations
             avgEntryPrice = float(item.get('avgEntryPrice'))
@@ -538,6 +558,7 @@ def parse_bb_closed (bb_api_key, bb_secret_key, category, unix_start, unix_end):
                 'equity': '',
                 'notional': notional, 
                 'effective_lev': '',
+                'side': side,
                 'uPnL' : '0',
                 'rPnL': closedPnl
             }
@@ -596,6 +617,7 @@ def parse_bb_open (bb_open_pnl, bybit_equity):
         notional = float(item.get('positionValue')) # Equity multiplied by leverage
         unrealisedPnl = item.get('unrealisedPnl')
         curRealisedPnl = item.get('curRealisedPnl')
+        side = item.get('side')
         total_notional += notional
         
         order_data = {
@@ -607,6 +629,7 @@ def parse_bb_open (bb_open_pnl, bybit_equity):
             'equity': bybit_equity,
             'notional': notional,
             'effective_lev': 0, 
+            'side': side,
             'uPnL': unrealisedPnl,
             'rPnL': curRealisedPnl
         }
