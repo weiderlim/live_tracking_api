@@ -4,3 +4,5 @@ __pycache__
 saved.json
 temp_notionals.py
 asset_live_tracking.pem
+Truth Check
+*.json
