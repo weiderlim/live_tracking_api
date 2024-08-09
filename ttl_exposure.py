@@ -473,9 +473,9 @@ def parse_bin_open (bin_open_pnl, current_date, binance_equity):
         entryPrice = float(item.get('entryPrice'))
 
         if liquidationPrice > entryPrice:
-            side = "Buy"
-        else:
             side = "Sell"
+        else:
+            side = "Buy"
 
         order_data = {
             'status': 'Open',
