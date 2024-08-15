@@ -122,8 +122,8 @@ def get_token_price(currency):
 def show_deribit_bal():
     
     # Owners
-    #acc_owners = ['VKEE', 'J']
-    acc_owners = ['A']
+    acc_owners = ['VKEE', 'J']
+    #acc_owners = ['A']
     all_deribit_data = []
     
     # Owner to PIC
