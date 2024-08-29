@@ -17,9 +17,10 @@ load_dotenv()
 # Dictionary to cache prices - Shared for binance and bybit for perfomance reasons
 price_cache = {}
 
-def spot_pnl():
+def show_spot_pnl():
 
     # Owners and mapping to PIC
+    #acc_owners = ['A', 'TEST'] 
     #acc_owners = ['A', 'TEST', 'J', 'VKEE'] 
     acc_owners = ['J', 'JM2', 'VKEE', 'KS']
 
