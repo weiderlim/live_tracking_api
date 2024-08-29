@@ -730,8 +730,6 @@ def get_bin_price(asset):
     
     return price
 
-spot_pnl()
-
 # order_data = {
 #             'status': 'Closed',
 #             'date': date,
