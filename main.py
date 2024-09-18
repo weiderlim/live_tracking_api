@@ -3,7 +3,7 @@ import json
 from db_exchange import exchange_assets
 from ttl_exposure import view_account
 from deribit_bal import show_deribit_bal
-from spot_exchange import spot_pnl
+from spot_exchange import show_spot_pnl
 
 app = Flask(__name__)
 
@@ -68,7 +68,7 @@ def deribit_bal():
 def spot_pnl():
 
     # Call the show_deribit_bal function
-    json_result = spot_pnl()
+    json_result = show_spot_pnl()
     result = json.loads(json_result.get('body'))
 
     return jsonify(result), 200
